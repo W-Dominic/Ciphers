@@ -1,44 +1,32 @@
-#Python program to brute force decrypt a transposition cipher
-#Dominic WOejwodka 
+#Program for decrypting a Transposition cipher given the key
+#Dominic Wojewodka 
 #March 2021
-
-#Uses a file, englishWords.txt which contains 470k+ english words used for english recognition
-#Credit for this dictionary: https://github.com/dwyl/english-words/blob/master/words.txt 
-
-#dictionary
-#file which opens the dictionary and stores the contents in an array
-def dictionary():
-    dictionaryFile = open("../englishWords.txt")
-    dictionaryFile = dictionaryFile.read().splitlines()
-    
-    words = []
-    for i in dictionaryFile:
-        words.append(i)
-    return words
-
-#isEnglish
-#this function will take a string and determine if it is english
-#a standard ratio is passed as a parameter for the percentage of english that are required to be marked as english
-def isEnglish(text,dictionary,ratio):
-    #first convert the string into an array
-    text = text.split(" ")
-    length = len(text)
-    count = 0
-    #checks the words against the dictionary, counting the number of english words
-    for i in text:
-        if i in dictionary:
-            count += 1
-    #ratio of english to non english words
-    PERCENT_ENGLISH = count/length
-    print("Percent English: ", PERCENT_ENGLISH)
-    if (PERCENT_ENGLISH >= ratio):
-        return True
-    else:
-        return False
-    
+""""""
+import math
+#decrypt
+def decrypt(cipherText,key):
+    cols = math.ceil(len(cipherText)/key)
+    lst = []
+    #use the algorithm to decrypt
+    #counter
+    cnt = 0
+    #positon in 1d array
+    i = 0
+    #x position in 2d array
+    x = 0
+    while(cnt<len(cipherText)):
+        print(i)
+        if (x == cols):
+            i -= (len(cipherText)-cols)
+            x = 0
         
-
-###
+        lst.append(cipherText[i])
+        
+        cnt += 1
+        i += cols
+        x += 1
+    return lst
 #main
-words = dictionary()
-print(isEnglish("gawaris in english",words,0.80))
+cipherText = input("Input the ciphertext: " )
+key = int(input("Enter the key: "))
+print(decrypt(cipherText, key))
